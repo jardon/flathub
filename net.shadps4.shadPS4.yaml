@@ -37,6 +37,8 @@ add-extensions:
 
 cleanup-commands:
   - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
+  # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
+  - rm -f ${FLATPAK_DEST}/share/metainfo/releases/net.shadps4.shadPS4.releases.xml
 
 modules:
   - name: rapidjson
@@ -65,9 +67,6 @@ modules:
     build-options:
       append-path: /usr/lib/sdk/llvm18/bin
       prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
-    cleanup:
-      # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
-      - share/metainfo/releases/net.shadps4.shadPS4.releases.xml
     config-opts:
       - -DENABLE_UPDATER=OFF
       - -DENABLE_QT_GUI=ON
