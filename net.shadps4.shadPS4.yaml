@@ -65,6 +65,9 @@ modules:
     build-options:
       append-path: /usr/lib/sdk/llvm18/bin
       prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
+    cleanup:
+      # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
+      - share/metainfo/releases/net.shadps4.shadPS4.releases.xml
     config-opts:
       - -DENABLE_UPDATER=OFF
       - -DENABLE_QT_GUI=ON
@@ -83,3 +86,8 @@ modules:
           url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
           tag-query: .tag_name
           version-query: .tag_name | sub("^v."; "")
+      # Use updated metainfo.xml with inline releases from main branch https://github.com/flatpak/flatpak/issues/6057
+      - type: file
+        url: https://raw.githubusercontent.com/shadps4-emu/shadPS4/refs/heads/main/dist/net.shadps4.shadPS4.metainfo.xml
+        sha256: "b3c45ef60748c7f791ef932a461b86990b380ca527d92d5474d65e3620297566"
+        dest: dist
