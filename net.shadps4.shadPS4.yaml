@@ -37,6 +37,8 @@ add-extensions:
 
 cleanup-commands:
   - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
+  # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
+  - rm ${FLATPAK_DEST}/share/metainfo/releases/net.shadps4.shadPS4.releases.xml
 
 modules:
   - name: rapidjson
@@ -83,3 +85,15 @@ modules:
           url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
           tag-query: .tag_name
           version-query: .tag_name | sub("^v."; "")
+
+  # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
+  - name: metainfo-xml
+    buildsystem: simple
+    sources:
+      - type: git
+        url: https://github.com/shadps4-emu/shadPS4
+        branch: main
+    build-commands:
+      - cp dist/net.shadps4.shadPS4.metainfo.xml ${FLATPAK_DEST}/share/metainfo/releases/net.shadps4.shadPS4.metainfo.xml
+    cleanup:
+      - '*'
